@@ -36,8 +36,8 @@ namespace FriendOrganizer.UI.ViewModel
         }
         #endregion
 
-        #region private methods
-        private void Load()
+        #region public methods
+        public void Load()
         {
             var friends = _dataService.GetAll();
             Friends.Clear();
