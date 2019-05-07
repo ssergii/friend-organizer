@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendOrganizer.Model", "Fr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendOrganizer.DataAccess", "FriendOrganizer.DataAccess\FriendOrganizer.DataAccess.csproj", "{501FC76B-90F9-4147-90E3-18ACC8CCF724}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendOrganizer.UI", "FriendOrganizer.UI\FriendOrganizer.UI.csproj", "{A0FA32D5-3852-44B7-A42E-CBAAE8A7250D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{501FC76B-90F9-4147-90E3-18ACC8CCF724}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{501FC76B-90F9-4147-90E3-18ACC8CCF724}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{501FC76B-90F9-4147-90E3-18ACC8CCF724}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0FA32D5-3852-44B7-A42E-CBAAE8A7250D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0FA32D5-3852-44B7-A42E-CBAAE8A7250D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0FA32D5-3852-44B7-A42E-CBAAE8A7250D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0FA32D5-3852-44B7-A42E-CBAAE8A7250D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
