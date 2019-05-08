@@ -37,9 +37,9 @@ namespace FriendOrganizer.UI.ViewModel
         #endregion
 
         #region public methods
-        public void Load()
+        public async void Load()
         {
-            var friends = _dataService.GetAll();
+            var friends = await _dataService.GetAllAsync();
             Friends.Clear();
 
             friends.ToList().ForEach(x =>
