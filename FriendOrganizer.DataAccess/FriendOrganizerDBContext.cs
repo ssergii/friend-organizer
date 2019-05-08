@@ -8,7 +8,7 @@ namespace FriendOrganizer.DataAccess
     {
         public FriendOrganizerDBContext() : base("FriendOrganizerDB") { }
 
-        DbSet<Friend> Friends { get; set; }
+        public DbSet<Friend> Friends { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
