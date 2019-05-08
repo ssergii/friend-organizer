@@ -14,10 +14,10 @@ namespace FriendOrganizer.DataAccess.Migrations
         {
             context.Friends.AddOrUpdate(
                 x => x.Id,
-                new Friend { Id = 1, FirstName = "Jan", LastName = "Kowalski", Email = "j.kowalski@wp.pl" },
-                new Friend { Id = 2, FirstName = "Adam", LastName = "Mickiewicz", Email = "a.mickiewicz@.onet.pl" },
-                new Friend { Id = 3, FirstName = "Kazimierz", LastName = "Wielki", Email = "k.wielki@gmail.com" },
-                new Friend { Id = 4, FirstName = "Andrzj", LastName = "Nowak", Email = "a.nowal@gmail.com" });
+                new Friend { FirstName = "Jan", LastName = "Kowalski", Email = "j.kowalski@wp.pl" },
+                new Friend { FirstName = "Adam", LastName = "Mickiewicz", Email = "a.mickiewicz@.onet.pl" },
+                new Friend { FirstName = "Kazimierz", LastName = "Wielki", Email = "k.wielki@gmail.com" },
+                new Friend { FirstName = "Andrzj", LastName = "Nowak", Email = "a.nowal@gmail.com" });
         }
     }
 }
