@@ -4,12 +4,12 @@ namespace FriendOrganizer.UI.ViewModel
 {
     public class MainViewModel : BaseViewModel
     {
-        INavigationViewModel _navigationVM;
+        public INavigationViewModel NavigationVM { get; }
 
         #region constructors
         public MainViewModel(INavigationViewModel navigationVM )
         {
-            _navigationVM = navigationVM;
+            NavigationVM = navigationVM;
 
         }
         #endregion
@@ -17,7 +17,7 @@ namespace FriendOrganizer.UI.ViewModel
         #region public methods
         public async Task LoadAsync()
         {
-            await _navigationVM.LoadAsync();
+            await NavigationVM.LoadAsync();
         }
         #endregion
     }
