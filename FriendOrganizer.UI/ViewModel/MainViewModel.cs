@@ -5,12 +5,15 @@ namespace FriendOrganizer.UI.ViewModel
     public class MainViewModel : BaseViewModel
     {
         public INavigationViewModel NavigationVM { get; }
+        public IFriendDetailViewModel FriendDetailVM { get; }
 
         #region constructors
-        public MainViewModel(INavigationViewModel navigationVM )
+        public MainViewModel(
+            INavigationViewModel navigationVM,
+            IFriendDetailViewModel friendDetailVM)
         {
             NavigationVM = navigationVM;
-
+            FriendDetailVM = friendDetailVM;
         }
         #endregion
 

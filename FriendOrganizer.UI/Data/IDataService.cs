@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace FriendOrganizer.UI.Data
 {
     public interface IDataService<T>
     {
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<T> GetByIdAsync(int id);
     }
 }
