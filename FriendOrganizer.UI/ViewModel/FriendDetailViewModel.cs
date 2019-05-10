@@ -1,9 +1,11 @@
-﻿using System;
-using FriendOrganizer.Model;
+﻿using FriendOrganizer.Model;
 using FriendOrganizer.UI.Data;
 using FriendOrganizer.UI.Event;
+using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using System;
 
 namespace FriendOrganizer.UI.ViewModel
 {
@@ -47,5 +49,30 @@ namespace FriendOrganizer.UI.ViewModel
         {
              Friend = await _dataService.GetByIdAsync(id);
         }
+
+        #region commands
+        private ICommand _saveCommand;
+        public ICommand SaveCommand
+        {
+            get
+            {
+                if (_saveCommand == null)
+                    _saveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExcute);
+
+                return _saveCommand;
+            }
+        }
+
+        private bool OnSaveCanExcute()
+        {
+            // TODO: friend validation
+            return true;
+        }
+
+        private void OnSaveExecute()
+        {
+            _dataService.SaveAsync(Friend);
+        }
+        #endregion
     }
 }
