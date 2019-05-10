@@ -13,6 +13,7 @@ namespace FriendOrganizer.UI.ViewModel
         public NavigationViewModel(IFriendLookupDataService dataService)
         {
             _dataService = dataService;
+            Friends = new ObservableCollection<LookupItem>();
         }
 
         public ObservableCollection<LookupItem> Friends { get; }

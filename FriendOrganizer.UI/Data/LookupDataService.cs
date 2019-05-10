@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FriendOrganizer.UI.Data
@@ -23,7 +22,7 @@ namespace FriendOrganizer.UI.Data
             using (var context = _contextCreator())
             {
                 return await context.Friends.AsNoTracking()
-                    .Select(x => new LookupItem { Id = x.Id, DisplayMember = $"{x.FirstName} {x.LastName}" })
+                    .Select(x => new LookupItem { Id = x.Id, DisplayMember = x.FirstName +" " + x.LastName })
                     .ToListAsync();
             }
         }

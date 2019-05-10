@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FriendOrganizer.Model
 {
@@ -17,8 +16,5 @@ namespace FriendOrganizer.Model
 
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Email length is between 2 and 50 characters")]
         public string Email { get; set; }
-
-        [NotMapped]
-        public string FullName { get { return $"{FirstName} {LastName}"; } }
     }
 }
