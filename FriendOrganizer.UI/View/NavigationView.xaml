@@ -10,6 +10,7 @@
 
     <Grid>
         <ListView ItemsSource="{Binding Friends}"
+                  SelectedItem="{Binding SelecetedFriend, Mode=TwoWay}"
                   DisplayMemberPath="DisplayMember" />
     </Grid>
 </UserControl>

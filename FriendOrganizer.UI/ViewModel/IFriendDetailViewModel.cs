@@ -1,7 +1,9 @@
-﻿namespace FriendOrganizer.UI.ViewModel
+﻿using System.Threading.Tasks;
+
+namespace FriendOrganizer.UI.ViewModel
 {
     public interface IFriendDetailViewModel
     {
-        void LoadByIdAsync(int id);
+        Task LoadByIdAsync(int id);
     }
 }
