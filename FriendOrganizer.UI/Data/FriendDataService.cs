@@ -23,7 +23,7 @@ namespace FriendOrganizer.UI.Data
             }
         }
 
-        public async void SaveAsync(Friend friend)
+        public async Task SaveAsync(Friend friend)
         {
             using (var ctx = _contextCreator())
             {

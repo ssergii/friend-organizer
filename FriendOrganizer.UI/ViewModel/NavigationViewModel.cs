@@ -5,6 +5,7 @@ using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace FriendOrganizer.UI.ViewModel
 {
@@ -38,11 +39,20 @@ namespace FriendOrganizer.UI.ViewModel
             IEventAggregator eventAggregator)
         {
             _dataService = dataService;
+
             _eventAggregator = eventAggregator;
+            _eventAggregator
+                .GetEvent<AfterFriendSavedEvent>()
+                .Subscribe(AfterFriendSaved);
 
             Friends = new ObservableCollection<LookupItem>();
         }
 
+        private void AfterFriendSaved(AfterFriendSavedEventArgs obj)
+        {
+            var lookupItem = Friends.Single(x => x.Id == obj.Id);
+            lookupItem.DisplayMember = obj.DisplayMember;
+        }
 
         public async Task LoadAsync()
         {

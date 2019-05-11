@@ -5,7 +5,6 @@ using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System;
 
 namespace FriendOrganizer.UI.ViewModel
 {
@@ -28,7 +27,6 @@ namespace FriendOrganizer.UI.ViewModel
         }
         #endregion
 
-
         public FriendDetailViewModel(
             IDataService<Friend> dataService,
             IEventAggregator eventAggregator)
@@ -47,7 +45,7 @@ namespace FriendOrganizer.UI.ViewModel
 
         public async Task LoadByIdAsync(int id)
         {
-             Friend = await _dataService.GetByIdAsync(id);
+            Friend = await _dataService.GetByIdAsync(id);
         }
 
         #region commands
@@ -69,9 +67,16 @@ namespace FriendOrganizer.UI.ViewModel
             return true;
         }
 
-        private void OnSaveExecute()
+        private async void OnSaveExecute()
         {
-            _dataService.SaveAsync(Friend);
+            await _dataService.SaveAsync(Friend);
+
+            _eventAggregator.GetEvent<AfterFriendSavedEvent>().Publish(
+                new AfterFriendSavedEventArgs
+                {
+                    Id = Friend.Id,
+                    DisplayMember = $"{Friend.FirstName} {Friend.LastName}"
+                });
         }
         #endregion
     }
