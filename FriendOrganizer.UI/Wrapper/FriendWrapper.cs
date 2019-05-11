@@ -18,7 +18,10 @@ namespace FriendOrganizer.UI.Wrapper
         #region model wrapping
         public Friend Model { get; }
 
-        public int Id { get; }
+        public int Id
+        {
+            get { return Model.Id; }
+        }
 
         public string FirstName
         {
@@ -39,7 +42,7 @@ namespace FriendOrganizer.UI.Wrapper
             {
                 case nameof(FirstName):
                     if (string.IsNullOrEmpty(FirstName))
-                        AddError(propertyName, "FirstaName is requared");
+                        AddError(propertyName, "FirstName is requared");
                     if (string.Equals(FirstName, "Robot", StringComparison.OrdinalIgnoreCase))
                         AddError(propertyName, "Robots are not valid friends");
                     break;
