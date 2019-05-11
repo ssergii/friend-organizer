@@ -27,6 +27,22 @@ namespace FriendOrganizer.UI.Wrapper
             {
                 Model.FirstName = value;
                 OnPropertyChanged();
+                ValidateProperty(nameof(FirstName));
+            }
+        }
+
+        private void ValidateProperty(string propertyName)
+        {
+            ClearError(propertyName);
+
+            switch (propertyName)
+            {
+                case nameof(FirstName):
+                    if (string.IsNullOrEmpty(FirstName))
+                        AddError(propertyName, "FirstaName is requared");
+                    if (string.Equals(FirstName, "Robot", StringComparison.OrdinalIgnoreCase))
+                        AddError(propertyName, "Robots are not valid friends");
+                    break;
             }
         }
 
@@ -85,7 +101,7 @@ namespace FriendOrganizer.UI.Wrapper
             }
         }
 
-        private void RemoveError(string propertyName)
+        private void ClearError(string propertyName)
         {
             if (_errorsByProperyName.ContainsKey(propertyName))
             {
