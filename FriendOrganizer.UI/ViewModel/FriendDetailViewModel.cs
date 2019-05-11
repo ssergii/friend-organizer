@@ -1,6 +1,7 @@
 ﻿using FriendOrganizer.Model;
 using FriendOrganizer.UI.Data;
 using FriendOrganizer.UI.Event;
+using FriendOrganizer.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
@@ -13,10 +14,10 @@ namespace FriendOrganizer.UI.ViewModel
         #region fields and properties
         private IDataService<Friend> _dataService;
 
-        private Friend _friend;
+        private FriendWrapper _friend;
         private IEventAggregator _eventAggregator;
 
-        public Friend Friend
+        public FriendWrapper Friend
         {
             get { return _friend; }
             set
@@ -45,7 +46,8 @@ namespace FriendOrganizer.UI.ViewModel
 
         public async Task LoadByIdAsync(int id)
         {
-            Friend = await _dataService.GetByIdAsync(id);
+            var model = await _dataService.GetByIdAsync(id);
+            Friend = new FriendWrapper(model);
         }
 
         #region commands
@@ -69,7 +71,7 @@ namespace FriendOrganizer.UI.ViewModel
 
         private async void OnSaveExecute()
         {
-            await _dataService.SaveAsync(Friend);
+            await _dataService.SaveAsync(Friend.Model);
 
             _eventAggregator.GetEvent<AfterFriendSavedEvent>().Publish(
                 new AfterFriendSavedEventArgs
