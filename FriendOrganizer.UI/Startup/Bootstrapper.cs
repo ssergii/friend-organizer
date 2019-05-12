@@ -1,7 +1,8 @@
 ﻿using Autofac;
 using FriendOrganizer.DataAccess;
 using FriendOrganizer.Model;
-using FriendOrganizer.UI.Data;
+using FriendOrganizer.UI.Data.Lookups;
+using FriendOrganizer.UI.Data.Repositories;
 using FriendOrganizer.UI.ViewModel;
 using Prism.Events;
 
@@ -21,7 +22,7 @@ namespace FriendOrganizer.UI.Startup
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
             builder.RegisterType<FriendDetailViewModel>().As<IFriendDetailViewModel>();
 
-            builder.RegisterType<FriendDataService>().As<IDataService<Friend>>();
+            builder.RegisterType<FriendRepository>().As<IRepository<Friend>>();
             builder.RegisterType<LookupDataService>().AsImplementedInterfaces();
 
             return builder.Build();

@@ -1,5 +1,5 @@
 ﻿using FriendOrganizer.Model;
-using FriendOrganizer.UI.Data;
+using FriendOrganizer.UI.Data.Repositories;
 using FriendOrganizer.UI.Event;
 using FriendOrganizer.UI.Wrapper;
 using Prism.Commands;
@@ -12,7 +12,7 @@ namespace FriendOrganizer.UI.ViewModel
     public class FriendDetailViewModel : BaseViewModel, IFriendDetailViewModel
     {
         #region fields and properties
-        private IDataService<Friend> _dataService;
+        private IRepository<Friend> _friendRepository;
 
         private FriendWrapper _friend;
         private IEventAggregator _eventAggregator;
@@ -29,11 +29,11 @@ namespace FriendOrganizer.UI.ViewModel
         #endregion
 
         public FriendDetailViewModel(
-            IDataService<Friend> dataService,
-            IEventAggregator eventAggregator)
+            IRepository<Friend> dataService,
+            IEventAggregator repository)
         {
-            _dataService = dataService;
-            _eventAggregator = eventAggregator;
+            _friendRepository = dataService;
+            _eventAggregator = repository;
             _eventAggregator
                 .GetEvent<OpenFriendDetailViewEvent>()
                 .Subscribe(OnOpenFriendDetailViewEvent);
@@ -46,7 +46,7 @@ namespace FriendOrganizer.UI.ViewModel
 
         public async Task LoadByIdAsync(int id)
         {
-            var model = await _dataService.GetByIdAsync(id);
+            var model = await _friendRepository.GetByIdAsync(id);
             Friend = new FriendWrapper(model);
             Friend.PropertyChanged += (s, e) =>
             {
@@ -77,7 +77,7 @@ namespace FriendOrganizer.UI.ViewModel
 
         private async void OnSaveExecute()
         {
-            await _dataService.SaveAsync(Friend.Model);
+            await _friendRepository.SaveAsync();
 
             _eventAggregator.GetEvent<AfterFriendSavedEvent>().Publish(
                 new AfterFriendSavedEventArgs
