@@ -48,6 +48,13 @@ namespace FriendOrganizer.UI.ViewModel
         {
             var model = await _dataService.GetByIdAsync(id);
             Friend = new FriendWrapper(model);
+            Friend.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(Friend.HasErrors))
+                    (SaveCommand as DelegateCommand).RaiseCanExecuteChanged();
+            };
+
+            (SaveCommand as DelegateCommand).RaiseCanExecuteChanged();
         }
 
         #region commands
@@ -65,8 +72,7 @@ namespace FriendOrganizer.UI.ViewModel
 
         private bool OnSaveCanExcute()
         {
-            // TODO: friend validation
-            return true;
+            return Friend != null && !Friend.HasErrors;
         }
 
         private async void OnSaveExecute()
