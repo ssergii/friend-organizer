@@ -38,8 +38,6 @@ namespace FriendOrganizer.UI.Wrapper
             switch (propertyName)
             {
                 case nameof(FirstName):
-                    if (string.IsNullOrEmpty(FirstName))
-                        yield return "FirstName is requared";
                     if (string.Equals(FirstName, "Robot", StringComparison.OrdinalIgnoreCase))
                         yield return "Robots are not valid friends";
                     break;
