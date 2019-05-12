@@ -13,22 +13,6 @@ namespace FriendOrganizer.UI.ViewModel
         private IFriendLookupDataService _dataService;
         private IEventAggregator _eventAggregator;
 
-        private NavigationItemViewModel _selecetedFriend;
-        public NavigationItemViewModel SelecetedFriend
-        {
-            get { return _selecetedFriend; }
-            set
-            {
-                _selecetedFriend = value;
-                OnPropertyChanged();
-
-                if (_selecetedFriend != null)
-                    _eventAggregator
-                        .GetEvent<OpenFriendDetailViewEvent>()
-                        .Publish(_selecetedFriend.Id);
-            }
-        }
-
         public ObservableCollection<NavigationItemViewModel> Friends { get; }
         #endregion
 
@@ -58,7 +42,7 @@ namespace FriendOrganizer.UI.ViewModel
 
             var lookup = await _dataService.GetFriendLookupAsync();
             lookup.ToList().ForEach(x =>
-                Friends.Add( new NavigationItemViewModel(x.Id, x.DisplayMember)));
+                Friends.Add( new NavigationItemViewModel(x.Id, x.DisplayMember, _eventAggregator)));
         }
     }
 }
