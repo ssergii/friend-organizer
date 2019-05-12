@@ -3,50 +3,36 @@ using System;
 
 namespace FriendOrganizer.UI.Wrapper
 {
-    public class FriendWrapper : NotifyDataErrorInfoBase
+    public class FriendWrapper : ModelWrapper<Friend>
     {
-        public FriendWrapper(Friend model)
-        {
-            Model = model;
-        }
+        public FriendWrapper(Friend model) : base(model) { }
 
         #region model wrapping
-        public Friend Model { get; }
-
         public int Id
         {
-            get { return Model.Id; }
+            get { return GetValue<int>(); }
         }
 
         public string FirstName
         {
-            get { return Model.FirstName; }
+            get { return GetValue<string>(); }
             set
             {
-                Model.FirstName = value;
-                OnPropertyChanged();
+                SetValue(value);
                 ValidateProperty(nameof(FirstName));
             }
         }
 
         public string LastName
         {
-            get { return Model.LastName; }
-            set
-            {
-                Model.LastName = value;
-                OnPropertyChanged();
-            }
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
         }
 
         public string Email
         {
-            get { return Model.Email; }
-            set
-            {
-                Model.Email = value;
-                OnPropertyChanged();
-            }
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
         }
         #endregion
 
