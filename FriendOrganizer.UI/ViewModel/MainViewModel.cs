@@ -2,6 +2,7 @@
 using Prism.Events;
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FriendOrganizer.UI.ViewModel
 {
@@ -50,6 +51,17 @@ namespace FriendOrganizer.UI.ViewModel
         #region private methods
         private async void OnOpenFriendDetailViewEvent(int id)
         {
+            if (FriendDetailVM != null && FriendDetailVM.HasChanges)
+            {
+                var result = MessageBox.Show(
+                    "You've made changes. Navigate away?",
+                    "Question",
+                    MessageBoxButton.OKCancel);
+
+                if (result == MessageBoxResult.Cancel)
+                    return;
+            }
+
             FriendDetailVM = _friendDetailVMCreator();
 
             await FriendDetailVM.LoadByIdAsync(id);
