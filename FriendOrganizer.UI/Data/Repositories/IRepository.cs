@@ -6,5 +6,6 @@ namespace FriendOrganizer.UI.Data.Repositories
     {
         Task<T> GetByIdAsync(int id);
         Task SaveAsync();
+        bool HasChanges();
     }
 }
