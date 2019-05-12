@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace FriendOrganizer.UI.Wrapper
 {
@@ -20,6 +22,23 @@ namespace FriendOrganizer.UI.Wrapper
         {
             typeof(T).GetProperty(propertyName).SetValue(Model, val);
             OnPropertyChanged();
+            ValidatePropertyInternal(propertyName);
+        }
+
+        private void ValidatePropertyInternal(string propertyName)
+        {
+            ClearError(propertyName);
+
+            var errors = ValidateProperty(propertyName);
+            if (errors == null)
+                return;
+
+            errors.ToList().ForEach(x => AddError(propertyName, x));
+        }
+
+        protected virtual IEnumerable<string> ValidateProperty(string propertyName)
+        {
+            return null;
         }
     }
 }

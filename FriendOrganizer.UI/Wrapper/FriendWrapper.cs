@@ -1,5 +1,6 @@
 ﻿using FriendOrganizer.Model;
 using System;
+using System.Collections.Generic;
 
 namespace FriendOrganizer.UI.Wrapper
 {
@@ -16,11 +17,7 @@ namespace FriendOrganizer.UI.Wrapper
         public string FirstName
         {
             get { return GetValue<string>(); }
-            set
-            {
-                SetValue(value);
-                ValidateProperty(nameof(FirstName));
-            }
+            set { SetValue(value); }
         }
 
         public string LastName
@@ -36,17 +33,15 @@ namespace FriendOrganizer.UI.Wrapper
         }
         #endregion
 
-        private void ValidateProperty(string propertyName)
+        protected override IEnumerable<string> ValidateProperty(string propertyName)
         {
-            ClearError(propertyName);
-
             switch (propertyName)
             {
                 case nameof(FirstName):
                     if (string.IsNullOrEmpty(FirstName))
-                        AddError(propertyName, "FirstName is requared");
+                        yield return "FirstName is requared";
                     if (string.Equals(FirstName, "Robot", StringComparison.OrdinalIgnoreCase))
-                        AddError(propertyName, "Robots are not valid friends");
+                        yield return "Robots are not valid friends";
                     break;
             }
         }
