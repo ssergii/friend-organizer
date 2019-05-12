@@ -34,14 +34,6 @@ namespace FriendOrganizer.UI.ViewModel
         {
             _friendRepository = dataService;
             _eventAggregator = repository;
-            _eventAggregator
-                .GetEvent<OpenFriendDetailViewEvent>()
-                .Subscribe(OnOpenFriendDetailViewEvent);
-        }
-
-        private async void OnOpenFriendDetailViewEvent(int id)
-        {
-            await LoadByIdAsync(id);
         }
 
         public async Task LoadByIdAsync(int id)
