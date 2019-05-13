@@ -10,12 +10,22 @@
     Title="FriendOrganizer" Height="350" Width="525">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <view:NavigationView DataContext="{Binding NavigationVM}" />
-        <view:FriendDetailView DataContext="{Binding FriendDetailVM}" Grid.Column="1" />
+        <Menu Grid.ColumnSpan="2" FontSize="20">
+            <MenuItem Header="Create">
+                <MenuItem Header="New Friend" Command="{Binding CreateNewFriendCommand}" />
+            </MenuItem>
+        </Menu>
+
+        <view:NavigationView Grid.Row="1" DataContext="{Binding NavigationVM}" />
+        <view:FriendDetailView Grid.Row="1" DataContext="{Binding FriendDetailVM}" Grid.Column="1" />
     </Grid>
 </Window>

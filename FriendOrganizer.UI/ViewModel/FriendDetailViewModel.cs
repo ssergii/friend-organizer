@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System;
 
 namespace FriendOrganizer.UI.ViewModel
 {
@@ -51,9 +52,12 @@ namespace FriendOrganizer.UI.ViewModel
             _eventAggregator = repository;
         }
 
-        public async Task LoadByIdAsync(int id)
+        public async Task LoadByIdAsync(int? id)
         {
-            var model = await _friendRepository.GetByIdAsync(id);
+            var model = id.HasValue ?
+                await _friendRepository.GetByIdAsync(id.Value) : CreateFriend();
+
+
             Friend = new FriendWrapper(model);
             Friend.PropertyChanged += (s, e) =>
             {
@@ -99,5 +103,13 @@ namespace FriendOrganizer.UI.ViewModel
                 });
         }
         #endregion
+
+        private Friend CreateFriend()
+        {
+            var friend = new Friend();
+            _friendRepository.Add(friend);
+
+            return friend;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using FriendOrganizer.Model;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using System;
 
 namespace FriendOrganizer.UI.Data.Repositories
 {
@@ -12,6 +13,11 @@ namespace FriendOrganizer.UI.Data.Repositories
         public FriendRepository(FriendOrganizerDBContext context)
         {
             _context = context;
+        }
+
+        public void Add(Friend obj)
+        {
+            _context.Friends.Add(obj);
         }
 
         public async Task<Friend> GetByIdAsync(int Id)
