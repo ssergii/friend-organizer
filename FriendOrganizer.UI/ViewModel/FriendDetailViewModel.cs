@@ -102,6 +102,24 @@ namespace FriendOrganizer.UI.ViewModel
                     DisplayMember = $"{Friend.FirstName} {Friend.LastName}"
                 });
         }
+
+        private ICommand _deleteCommand;
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                if (_deleteCommand == null)
+                    _deleteCommand = new DelegateCommand(OnDeleteCommandExecute);
+
+                return _deleteCommand;
+            }
+        }
+
+        private async void OnDeleteCommandExecute()
+        {
+            _friendRepository.Remove(Friend.Model);
+            await _friendRepository.SaveAsync();
+        }
         #endregion
 
         private Friend CreateFriend()

@@ -2,7 +2,6 @@
 using FriendOrganizer.Model;
 using System.Data.Entity;
 using System.Threading.Tasks;
-using System;
 
 namespace FriendOrganizer.UI.Data.Repositories
 {
@@ -28,6 +27,11 @@ namespace FriendOrganizer.UI.Data.Repositories
         public bool HasChanges()
         {
             return _context.ChangeTracker.HasChanges();
+        }
+
+        public void Remove(Friend obj)
+        {
+            _context.Friends.Remove(obj);
         }
 
         public async Task SaveAsync()

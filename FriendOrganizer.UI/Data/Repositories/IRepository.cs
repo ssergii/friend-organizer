@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using FriendOrganizer.Model;
 
 namespace FriendOrganizer.UI.Data.Repositories
 {
@@ -9,5 +8,6 @@ namespace FriendOrganizer.UI.Data.Repositories
         Task SaveAsync();
         bool HasChanges();
         void Add(T obj);
+        void Remove(T obj);
     }
 }
