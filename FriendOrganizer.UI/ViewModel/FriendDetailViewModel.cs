@@ -41,15 +41,14 @@ namespace FriendOrganizer.UI.ViewModel
                 (SaveCommand as DelegateCommand).RaiseCanExecuteChanged();
             }
         }
-
         #endregion
 
         public FriendDetailViewModel(
-            IRepository<Friend> dataService,
-            IEventAggregator repository)
+            IRepository<Friend> repository,
+            IEventAggregator eventAggregator)
         {
-            _friendRepository = dataService;
-            _eventAggregator = repository;
+            _friendRepository = repository;
+            _eventAggregator = eventAggregator;
         }
 
         public async Task LoadByIdAsync(int? id)
@@ -119,6 +118,8 @@ namespace FriendOrganizer.UI.ViewModel
         {
             _friendRepository.Remove(Friend.Model);
             await _friendRepository.SaveAsync();
+
+            _eventAggregator.GetEvent<AfterFriendDeleteEvent>().Publish(Friend.Id);
         }
         #endregion
 

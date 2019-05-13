@@ -4,6 +4,7 @@ using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace FriendOrganizer.UI.ViewModel
 {
@@ -26,6 +27,9 @@ namespace FriendOrganizer.UI.ViewModel
             _eventAggregator
                 .GetEvent<AfterFriendSavedEvent>()
                 .Subscribe(AfterFriendSaved);
+            _eventAggregator
+                .GetEvent<AfterFriendDeleteEvent>()
+                .Subscribe(AfterFrienddeleted);
 
             Friends = new ObservableCollection<NavigationItemViewModel>();
         }
@@ -37,6 +41,12 @@ namespace FriendOrganizer.UI.ViewModel
                 Friends.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember, _eventAggregator));
             else
                 lookupItem.DisplayMember = obj.DisplayMember;
+        }
+
+        private void AfterFrienddeleted(int id)
+        {
+            var friend = Friends.Single(x => x.Id == id);
+            Friends.Remove(friend);
         }
 
         public async Task LoadAsync()
