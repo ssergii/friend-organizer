@@ -7,6 +7,7 @@ using Prism.Events;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System;
+using FriendOrganizer.UI.View.Services;
 
 namespace FriendOrganizer.UI.ViewModel
 {
@@ -15,6 +16,7 @@ namespace FriendOrganizer.UI.ViewModel
         #region fields and properties
         private IRepository<Friend> _friendRepository;
         private IEventAggregator _eventAggregator;
+        private IMessageDialogService _messageDialogService;
 
         private FriendWrapper _friend;
         public FriendWrapper Friend
@@ -45,10 +47,12 @@ namespace FriendOrganizer.UI.ViewModel
 
         public FriendDetailViewModel(
             IRepository<Friend> repository,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator,
+            IMessageDialogService messageDialogService)
         {
             _friendRepository = repository;
             _eventAggregator = eventAggregator;
+            _messageDialogService = messageDialogService;
         }
 
         public async Task LoadByIdAsync(int? id)
@@ -116,6 +120,13 @@ namespace FriendOrganizer.UI.ViewModel
 
         private async void OnDeleteCommandExecute()
         {
+            var result = _messageDialogService.ShowOkCancelDialog(
+                $"Do you really want to delete {Friend.FirstName} {Friend.LastName}",
+                "Question");
+
+            if (result == MessageDialogResult.Cancel)
+                return;
+
             _friendRepository.Remove(Friend.Model);
             await _friendRepository.SaveAsync();
 
