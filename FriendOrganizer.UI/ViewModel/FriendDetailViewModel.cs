@@ -6,8 +6,10 @@ using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System;
+using System.Linq;
 using FriendOrganizer.UI.View.Services;
+using FriendOrganizer.UI.Data.Lookups;
+using System.Collections.ObjectModel;
 
 namespace FriendOrganizer.UI.ViewModel
 {
@@ -43,16 +45,22 @@ namespace FriendOrganizer.UI.ViewModel
                 (SaveCommand as DelegateCommand).RaiseCanExecuteChanged();
             }
         }
+
+        public ObservableCollection<LookupItem> ProgLanguages { get; }
         #endregion
 
         public FriendDetailViewModel(
             IRepository<Friend> repository,
             IEventAggregator eventAggregator,
-            IMessageDialogService messageDialogService)
+            IMessageDialogService messageDialogService,
+            IProgLanguageLookupDataService progLanDataService)
         {
             _friendRepository = repository;
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
+            _progLanDataService = progLanDataService;
+
+            ProgLanguages = new ObservableCollection<LookupItem>();
         }
 
         public async Task LoadByIdAsync(int? id)
@@ -60,18 +68,8 @@ namespace FriendOrganizer.UI.ViewModel
             var model = id.HasValue ?
                 await _friendRepository.GetByIdAsync(id.Value) : CreateFriend();
 
-
-            Friend = new FriendWrapper(model);
-            Friend.PropertyChanged += (s, e) =>
-            {
-                if (!HasChanges)
-                    HasChanges = _friendRepository.HasChanges();
-
-                if (e.PropertyName == nameof(Friend.HasErrors))
-                    (SaveCommand as DelegateCommand).RaiseCanExecuteChanged();
-            };
-
-            (SaveCommand as DelegateCommand).RaiseCanExecuteChanged();
+            InitFriend(model);
+            await LoadProgLanguagesAsync();
         }
 
         #region commands
@@ -107,6 +105,8 @@ namespace FriendOrganizer.UI.ViewModel
         }
 
         private ICommand _deleteCommand;
+        private IProgLanguageLookupDataService _progLanDataService;
+
         public ICommand DeleteCommand
         {
             get
@@ -134,6 +134,7 @@ namespace FriendOrganizer.UI.ViewModel
         }
         #endregion
 
+        #region methods
         private Friend CreateFriend()
         {
             var friend = new Friend();
@@ -141,5 +142,27 @@ namespace FriendOrganizer.UI.ViewModel
 
             return friend;
         }
+
+        private void InitFriend(Friend model)
+        {
+            Friend = new FriendWrapper(model);
+            Friend.PropertyChanged += (s, e) =>
+            {
+                if (!HasChanges)
+                    HasChanges = _friendRepository.HasChanges();
+
+                if (e.PropertyName == nameof(Friend.HasErrors))
+                    (SaveCommand as DelegateCommand).RaiseCanExecuteChanged();
+            };
+
+            (SaveCommand as DelegateCommand).RaiseCanExecuteChanged();
+        }
+
+        private async Task LoadProgLanguagesAsync()
+        {
+            var languages = await _progLanDataService.GetProgLanguagesLookupAsync();
+            languages.ToList().ForEach(x => ProgLanguages.Add(x));
+        }
+        #endregion
     }
 }
