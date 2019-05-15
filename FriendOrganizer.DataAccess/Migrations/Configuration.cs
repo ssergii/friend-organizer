@@ -15,9 +15,17 @@ namespace FriendOrganizer.DataAccess.Migrations
             context.Friends.AddOrUpdate(
                 x => x.Id,
                 new Friend { FirstName = "Jan", LastName = "Kowalski", Email = "j.kowalski@wp.pl" },
-                new Friend { FirstName = "Adam", LastName = "Mickiewicz", Email = "a.mickiewicz@.onet.pl" },
+                new Friend { FirstName = "Adam", LastName = "Mickiewicz", Email = "a.mickiewicz@onet.pl" },
                 new Friend { FirstName = "Kazimierz", LastName = "Wielki", Email = "k.wielki@gmail.com" },
                 new Friend { FirstName = "Andrzj", LastName = "Nowak", Email = "a.nowal@gmail.com" });
+
+            context.ProgrammingLanguages.AddOrUpdate(
+                x => x.Id,
+                new ProgrammingLanguage { Name = "C#" },
+                new ProgrammingLanguage { Name = "Java" },
+                new ProgrammingLanguage { Name = "PHP" },
+                new ProgrammingLanguage { Name = "JavaScript" },
+                new ProgrammingLanguage { Name = "SQL " });
         }
     }
 }

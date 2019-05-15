@@ -17,5 +17,9 @@ namespace FriendOrganizer.Model
         [EmailAddress]
         [StringLength(50, MinimumLength = 2)]
         public string Email { get; set; }
+
+        public int? FavoritLanguageId { get; set; }
+
+        public ProgrammingLanguage FavoritLanguage { get; set; }
     }
 }
