@@ -160,6 +160,8 @@ namespace FriendOrganizer.UI.ViewModel
 
         private async Task LoadProgLanguagesAsync()
         {
+            ProgLanguages.Clear();
+            ProgLanguages.Add(new NullLookupItem { DisplayMember = "-" });
             var languages = await _progLanDataService.GetProgLanguagesLookupAsync();
             languages.ToList().ForEach(x => ProgLanguages.Add(x));
         }
