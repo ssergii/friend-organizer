@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormattedDbEntityValidationException.cs" />
     <Compile Include="FriendOrganizerDBContext.cs" />
     <Compile Include="Migrations\201905081758067_InitDataBase.cs" />
     <Compile Include="Migrations\201905081758067_InitDataBase.Designer.cs">
