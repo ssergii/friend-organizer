@@ -2,6 +2,7 @@ namespace FriendOrganizer.DataAccess.Migrations
 {
     using Model;
     using System.Data.Entity.Migrations;
+    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<FriendOrganizerDBContext>
     {
@@ -26,6 +27,12 @@ namespace FriendOrganizer.DataAccess.Migrations
                 new ProgrammingLanguage { Name = "PHP" },
                 new ProgrammingLanguage { Name = "JavaScript" },
                 new ProgrammingLanguage { Name = "SQL " });
+
+            context.SaveChanges();
+
+            context.PhoneNumbers.AddOrUpdate(
+                x => x.Id,
+                new PhoneNumber { Number = "+48 884 131 499", FriendId = context.Friends.First().Id });
         }
     }
 }

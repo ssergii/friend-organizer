@@ -59,6 +59,10 @@
     <Compile Include="Migrations\201905142104081_AddingProgrammingLanguage.Designer.cs">
       <DependentUpon>201905142104081_AddingProgrammingLanguage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905161816125_AddingPhoneNumber.cs" />
+    <Compile Include="Migrations\201905161816125_AddingPhoneNumber.Designer.cs">
+      <DependentUpon>201905161816125_AddingPhoneNumber.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -78,6 +82,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905142104081_AddingProgrammingLanguage.resx">
       <DependentUpon>201905142104081_AddingProgrammingLanguage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905161816125_AddingPhoneNumber.resx">
+      <DependentUpon>201905161816125_AddingPhoneNumber.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
