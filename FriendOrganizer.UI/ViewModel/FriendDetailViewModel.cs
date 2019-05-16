@@ -19,6 +19,7 @@ namespace FriendOrganizer.UI.ViewModel
         private IRepository<Friend> _friendRepository;
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
+        private IProgLanguageLookupDataService _progLanDataService;
 
         private FriendWrapper _friend;
         public FriendWrapper Friend
@@ -61,6 +62,8 @@ namespace FriendOrganizer.UI.ViewModel
             _progLanDataService = progLanDataService;
 
             ProgLanguages = new ObservableCollection<LookupItem>();
+
+            InitCommends();
         }
 
         public async Task LoadByIdAsync(int? id)
@@ -73,16 +76,13 @@ namespace FriendOrganizer.UI.ViewModel
         }
 
         #region commands
-        private ICommand _saveCommand;
-        public ICommand SaveCommand
-        {
-            get
-            {
-                if (_saveCommand == null)
-                    _saveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExcute);
+        public ICommand SaveCommand { get; private set; }
+        public ICommand DeleteCommand { get; private set; }
 
-                return _saveCommand;
-            }
+        private void InitCommends()
+        {
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExcute);
+            DeleteCommand = new DelegateCommand(OnDeleteCommandExecute);
         }
 
         private bool OnSaveCanExcute()
@@ -102,20 +102,6 @@ namespace FriendOrganizer.UI.ViewModel
                     Id = Friend.Id,
                     DisplayMember = $"{Friend.FirstName} {Friend.LastName}"
                 });
-        }
-
-        private ICommand _deleteCommand;
-        private IProgLanguageLookupDataService _progLanDataService;
-
-        public ICommand DeleteCommand
-        {
-            get
-            {
-                if (_deleteCommand == null)
-                    _deleteCommand = new DelegateCommand(OnDeleteCommandExecute);
-
-                return _deleteCommand;
-            }
         }
 
         private async void OnDeleteCommandExecute()
