@@ -10,6 +10,9 @@ using System.Linq;
 using FriendOrganizer.UI.View.Services;
 using FriendOrganizer.UI.Data.Lookups;
 using System.Collections.ObjectModel;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace FriendOrganizer.UI.ViewModel
 {
@@ -48,6 +51,20 @@ namespace FriendOrganizer.UI.ViewModel
         }
 
         public ObservableCollection<LookupItem> ProgLanguages { get; }
+
+        private PhoneNumberWrapper _selectedPhoneNumber;
+        public PhoneNumberWrapper SelectedPhoneNumber
+        {
+            get { return _selectedPhoneNumber; }
+            set
+            {
+                _selectedPhoneNumber = value;
+                OnPropertyChanged();
+                (RemovePhoneCommand as DelegateCommand).RaiseCanExecuteChanged();
+            }
+        }
+
+        public ObservableCollection<PhoneNumberWrapper> PhoneNumbers { get; }
         #endregion
 
         public FriendDetailViewModel(
@@ -62,6 +79,7 @@ namespace FriendOrganizer.UI.ViewModel
             _progLanDataService = progLanDataService;
 
             ProgLanguages = new ObservableCollection<LookupItem>();
+            PhoneNumbers = new ObservableCollection<PhoneNumberWrapper>();
 
             InitCommends();
         }
@@ -72,22 +90,29 @@ namespace FriendOrganizer.UI.ViewModel
                 await _friendRepository.GetByIdAsync(id.Value) : CreateFriend();
 
             InitFriend(model);
+            InitPhoneNumber(model.PhoneNumbers);
+
             await LoadProgLanguagesAsync();
         }
 
         #region commands
         public ICommand SaveCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
+        public ICommand AddPhoneCommand { get; private set; }
+        public ICommand RemovePhoneCommand { get; private set; }
 
         private void InitCommends()
         {
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExcute);
             DeleteCommand = new DelegateCommand(OnDeleteCommandExecute);
+            AddPhoneCommand = new DelegateCommand(OnAddPhoneExecute);
+            RemovePhoneCommand = new DelegateCommand(OnRemovePhoneExecute, OnRemovePhoneCanExecute);
         }
 
         private bool OnSaveCanExcute()
         {
-            return Friend != null && !Friend.HasErrors && HasChanges;
+            return Friend != null && !Friend.HasErrors && HasChanges
+                && PhoneNumbers.All(x => !x.HasErrors);
         }
 
         private async void OnSaveExecute()
@@ -118,6 +143,21 @@ namespace FriendOrganizer.UI.ViewModel
 
             _eventAggregator.GetEvent<AfterFriendDeleteEvent>().Publish(Friend.Id);
         }
+
+        private void OnAddPhoneExecute()
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool OnRemovePhoneCanExecute()
+        {
+            return SelectedPhoneNumber != null;
+        }
+
+        private void OnRemovePhoneExecute()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #region methods
@@ -142,6 +182,30 @@ namespace FriendOrganizer.UI.ViewModel
             };
 
             (SaveCommand as DelegateCommand).RaiseCanExecuteChanged();
+        }
+
+        private void InitPhoneNumber(IEnumerable<PhoneNumber> phoneNumbers)
+        {
+            foreach (var wrapper in PhoneNumbers)
+                wrapper.PropertyChanged -= PhoneNumbers_PropertyChange;
+
+
+            PhoneNumbers.Clear();
+            foreach(var phone in phoneNumbers)
+            {
+                var wrapper = new PhoneNumberWrapper(phone);
+                PhoneNumbers.Add(wrapper);
+                wrapper.PropertyChanged += PhoneNumbers_PropertyChange;
+            }
+        }
+
+        private void PhoneNumbers_PropertyChange(object sender, PropertyChangedEventArgs e)
+        {
+            if (!HasChanges)
+                HasChanges = _friendRepository.HasChanges();
+
+            if (e.PropertyName == nameof(PhoneNumberWrapper.HasErrors))
+                (SaveCommand as DelegateCommand).RaiseCanExecuteChanged();
         }
 
         private async Task LoadProgLanguagesAsync()

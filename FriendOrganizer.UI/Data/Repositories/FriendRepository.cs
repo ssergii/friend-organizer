@@ -21,7 +21,9 @@ namespace FriendOrganizer.UI.Data.Repositories
 
         public async Task<Friend> GetByIdAsync(int Id)
         {
-            return await _context.Friends.SingleAsync(x => x.Id == Id);
+            return await _context.Friends
+                .Include(x => x.PhoneNumbers)
+                .SingleAsync(x => x.Id == Id);
         }
 
         public bool HasChanges()
