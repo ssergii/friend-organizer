@@ -146,7 +146,11 @@ namespace FriendOrganizer.UI.ViewModel
 
         private void OnAddPhoneExecute()
         {
-            throw new NotImplementedException();
+            var phone = new PhoneNumberWrapper(new PhoneNumber());
+            phone.PropertyChanged += PhoneNumbers_PropertyChange;
+            PhoneNumbers.Add(phone);
+            Friend.Model.PhoneNumbers.Add(phone.Model);
+            phone.Number = ""; // trigger validation
         }
 
         private bool OnRemovePhoneCanExecute()
