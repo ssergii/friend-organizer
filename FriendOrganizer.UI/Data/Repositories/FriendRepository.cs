@@ -2,6 +2,7 @@
 using FriendOrganizer.Model;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using System;
 
 namespace FriendOrganizer.UI.Data.Repositories
 {
@@ -34,6 +35,11 @@ namespace FriendOrganizer.UI.Data.Repositories
         public void Remove(Friend obj)
         {
             _context.Friends.Remove(obj);
+        }
+
+        public void RemovePhoneNumber(PhoneNumber model)
+        {
+            _context.PhoneNumbers.Remove(model);
         }
 
         public async Task SaveAsync()

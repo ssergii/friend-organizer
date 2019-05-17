@@ -160,7 +160,12 @@ namespace FriendOrganizer.UI.ViewModel
 
         private void OnRemovePhoneExecute()
         {
-            throw new NotImplementedException();
+            SelectedPhoneNumber.PropertyChanged += PhoneNumbers_PropertyChange;
+            _friendRepository.RemovePhoneNumber(SelectedPhoneNumber.Model);
+            PhoneNumbers.Remove(SelectedPhoneNumber);
+            SelectedPhoneNumber = null;
+            HasChanges = _friendRepository.HasChanges();
+            (SaveCommand as DelegateCommand).RaiseCanExecuteChanged();
         }
         #endregion
 
