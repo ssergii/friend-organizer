@@ -29,6 +29,6 @@ namespace FriendOrganizer.Model
 
         public ProgrammingLanguage FavoritLanguage { get; set; }
 
-        public IEnumerable<PhoneNumber> PhoneNumbers { get; set; }
+        public ICollection<PhoneNumber> PhoneNumbers { get; set; }
     }
 }
