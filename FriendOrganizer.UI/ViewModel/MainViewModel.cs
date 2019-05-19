@@ -49,21 +49,21 @@ namespace FriendOrganizer.UI.ViewModel
         #endregion
 
         #region commands
-        private ICommand _createNewFriendCommand;
-        public ICommand CreateNewFriendCommand
+        private ICommand _createNewDetailCommand;
+        public ICommand CreateNewDetailCommand
         {
             get
             {
-                if (_createNewFriendCommand == null)
-                    _createNewFriendCommand = new DelegateCommand(OnCreateNewFriendCommandExecuet);
+                if (_createNewDetailCommand == null)
+                    _createNewDetailCommand = new DelegateCommand<Type>(OnCreateNewDetilExecuet);
 
-                return _createNewFriendCommand;
+                return _createNewDetailCommand;
             }
         }
 
-        private void OnCreateNewFriendCommandExecuet()
+        private void OnCreateNewDetilExecuet(Type viewModelType)
         {
-            OnOpenDetailViewEvent(null);
+            OnOpenDetailViewEvent(new OpenDetailViewEventArgs { VMName = viewModelType.Name });
         }
         #endregion
 
