@@ -141,7 +141,12 @@ namespace FriendOrganizer.UI.ViewModel
             _friendRepository.Remove(Friend.Model);
             await _friendRepository.SaveAsync();
 
-            _eventAggregator.GetEvent<AfterFriendDeleteEvent>().Publish(Friend.Id);
+            _eventAggregator.GetEvent<AfterDetailDeletedEvent>().Publish(
+                new AfterDetailDeletedEventArgs
+                {
+                    Id = Friend.Id,
+                    VMName = nameof(FriendDetailViewModel)
+                });
         }
 
         private void OnAddPhoneExecute()

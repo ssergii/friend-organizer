@@ -41,8 +41,8 @@ namespace FriendOrganizer.UI.ViewModel
             _eventAggregator
                 .GetEvent<OpenDetailViewEvent>()
                 .Subscribe(OnOpenDetailViewEvent);
-            _eventAggregator.GetEvent<AfterFriendDeleteEvent>()
-                .Subscribe(AfterFriendDeleted);
+            _eventAggregator.GetEvent<AfterDetailDeletedEvent>()
+                .Subscribe(AfterDetailDeleted);
 
             NavigationVM = navigationVM;
         }
@@ -97,7 +97,7 @@ namespace FriendOrganizer.UI.ViewModel
             await DetailVM.LoadByIdAsync(args.Id);
         }
 
-        private void AfterFriendDeleted(int id)
+        private void AfterDetailDeleted(AfterDetailDeletedEventArgs args)
         {
             DetailVM = null;
         }
