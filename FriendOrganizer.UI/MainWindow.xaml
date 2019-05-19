@@ -34,6 +34,6 @@
         </Menu>
 
         <view:NavigationView Grid.Row="1" DataContext="{Binding NavigationVM}" />
-        <ContentControl Grid.Row="1"  Grid.Column="1" Content="{Binding FriendDetailVM}" />
+        <ContentControl Grid.Row="1"  Grid.Column="1" Content="{Binding DetailVM}" />
     </Grid>
 </Window>

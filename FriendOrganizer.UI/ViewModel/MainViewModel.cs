@@ -16,13 +16,13 @@ namespace FriendOrganizer.UI.ViewModel
 
         public INavigationViewModel NavigationVM { get; }
 
-        private IFriendDetailViewModel _friendDetailVM;
-        public IFriendDetailViewModel FriendDetailVM
+        private IDetailViewModel _detailVM;
+        public IDetailViewModel DetailVM
         {
-            get { return _friendDetailVM; }
+            get { return _detailVM; }
             private set
             {
-                _friendDetailVM = value;
+                _detailVM = value;
                 OnPropertyChanged();
             }
         }
@@ -77,7 +77,7 @@ namespace FriendOrganizer.UI.ViewModel
         #region private methods
         private async void OnOpenFriendDetailViewEvent(int? id)
         {
-            if (FriendDetailVM != null && FriendDetailVM.HasChanges)
+            if (DetailVM != null && DetailVM.HasChanges)
             {
                 var result = _messageDialogService.ShowOkCancelDialog(
                     "You've made changes. Navigate away?",
@@ -87,14 +87,14 @@ namespace FriendOrganizer.UI.ViewModel
                     return;
             }
 
-            FriendDetailVM = _friendDetailVMCreator();
+            DetailVM = _friendDetailVMCreator();
 
-            await FriendDetailVM.LoadByIdAsync(id);
+            await DetailVM.LoadByIdAsync(id);
         }
 
         private void AfterFriendDeleted(int id)
         {
-            FriendDetailVM = null;
+            DetailVM = null;
         }
         #endregion
     }
