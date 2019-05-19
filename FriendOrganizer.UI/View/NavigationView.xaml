@@ -10,7 +10,7 @@
 
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
-                  HorizontalScrollBarVisibility="Auto">
+                      HorizontalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Friends}">
                 <ItemsControl.ItemContainerStyle>
                     <Style TargetType="ContentPresenter">
@@ -21,12 +21,12 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Content="{Binding DisplayMember}"
-                    Command="{Binding OpenFriendDetailViewCommand}">
+                                Command="{Binding OpenDetailViewCommand}">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Grid x:Name="grid">
                                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                     </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">

@@ -4,7 +4,6 @@ using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 
 namespace FriendOrganizer.UI.ViewModel
 {
@@ -38,7 +37,7 @@ namespace FriendOrganizer.UI.ViewModel
         {
             var lookupItem = Friends.SingleOrDefault(x => x.Id == obj.Id);
             if (lookupItem == null)
-                Friends.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember, _eventAggregator));
+                Friends.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember, nameof(FriendDetailViewModel), _eventAggregator));
             else
                 lookupItem.DisplayMember = obj.DisplayMember;
         }
@@ -55,7 +54,7 @@ namespace FriendOrganizer.UI.ViewModel
 
             var lookup = await _dataService.GetFriendLookupAsync();
             lookup.ToList().ForEach(x =>
-                Friends.Add( new NavigationItemViewModel(x.Id, x.DisplayMember, _eventAggregator)));
+                Friends.Add( new NavigationItemViewModel(x.Id, x.DisplayMember, nameof(FriendDetailViewModel), _eventAggregator)));
         }
     }
 }

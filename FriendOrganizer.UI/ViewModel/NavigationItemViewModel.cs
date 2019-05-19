@@ -1,6 +1,5 @@
 ﻿using Prism.Commands;
 using System.Windows.Input;
-using System;
 using Prism.Events;
 using FriendOrganizer.UI.Event;
 
@@ -10,6 +9,7 @@ namespace FriendOrganizer.UI.ViewModel
     {
         #region fields and properties
         private IEventAggregator _eventAggregator;
+        private string _detailsViewModelName;
 
         public int Id { get; }
 
@@ -25,33 +25,40 @@ namespace FriendOrganizer.UI.ViewModel
         }
         #endregion
 
-        public NavigationItemViewModel(int id, string displayMember,
+        public NavigationItemViewModel(
+            int id,
+            string displayMember,
+            string detailsViewModelName,
             IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+            _detailsViewModelName = detailsViewModelName;
 
             Id = id;
             DisplayMember = displayMember;
         }
 
         #region commands
-        private ICommand _openFriendDetailViewCommand;
-        public ICommand OpenFriendDetailViewCommand
+        private ICommand _openDetailViewCommand;
+        public ICommand OpenDetailViewCommand
         {
             get
             {
-                if (_openFriendDetailViewCommand == null)
-                    _openFriendDetailViewCommand = new DelegateCommand(OnOpenFriendDetailViewExecute);
+                if (_openDetailViewCommand == null)
+                    _openDetailViewCommand = new DelegateCommand(OnOpenDetailViewExecute);
 
-                return _openFriendDetailViewCommand;
+                return _openDetailViewCommand;
             }
         }
 
-        private void OnOpenFriendDetailViewExecute()
+        private void OnOpenDetailViewExecute()
         {
             _eventAggregator
-                .GetEvent<OpenFriendDetailViewEvent>()
-                .Publish(Id);
+                .GetEvent<OpenDetailViewEvent>()
+                .Publish(new OpenDetailViewEventArgs
+                {
+                    Id = Id, VMName = _detailsViewModelName
+                });
         }
         #endregion
     }

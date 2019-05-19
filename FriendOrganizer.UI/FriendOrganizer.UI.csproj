@@ -92,7 +92,7 @@
     <Compile Include="Data\Lookups\LookupDataService.cs" />
     <Compile Include="Event\AfterFriendDaveEvent.cs" />
     <Compile Include="Event\AfterFriendDeleteEvent.cs" />
-    <Compile Include="Event\OpenFriendDetailEvent.cs" />
+    <Compile Include="Event\OpenDetailViewEvent.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\FriendDetailViewModel.cs" />

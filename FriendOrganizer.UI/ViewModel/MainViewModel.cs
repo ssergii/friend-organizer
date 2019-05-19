@@ -39,8 +39,8 @@ namespace FriendOrganizer.UI.ViewModel
             _messageDialogService = messageDialogService;
 
             _eventAggregator
-                .GetEvent<OpenFriendDetailViewEvent>()
-                .Subscribe(OnOpenFriendDetailViewEvent);
+                .GetEvent<OpenDetailViewEvent>()
+                .Subscribe(OnOpenDetailViewEvent);
             _eventAggregator.GetEvent<AfterFriendDeleteEvent>()
                 .Subscribe(AfterFriendDeleted);
 
@@ -63,7 +63,7 @@ namespace FriendOrganizer.UI.ViewModel
 
         private void OnCreateNewFriendCommandExecuet()
         {
-            OnOpenFriendDetailViewEvent(null);
+            OnOpenDetailViewEvent(null);
         }
         #endregion
 
@@ -75,7 +75,7 @@ namespace FriendOrganizer.UI.ViewModel
         #endregion
 
         #region private methods
-        private async void OnOpenFriendDetailViewEvent(int? id)
+        private async void OnOpenDetailViewEvent(OpenDetailViewEventArgs args)
         {
             if (DetailVM != null && DetailVM.HasChanges)
             {
@@ -87,9 +87,14 @@ namespace FriendOrganizer.UI.ViewModel
                     return;
             }
 
-            DetailVM = _friendDetailVMCreator();
+            switch (args.VMName)
+            {
+                case nameof(FriendDetailViewModel):
+                    DetailVM = _friendDetailVMCreator();
+                    break;
+            }
 
-            await DetailVM.LoadByIdAsync(id);
+            await DetailVM.LoadByIdAsync(args.Id);
         }
 
         private void AfterFriendDeleted(int id)
