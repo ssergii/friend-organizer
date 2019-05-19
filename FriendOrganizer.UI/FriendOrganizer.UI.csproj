@@ -96,6 +96,7 @@
     <Compile Include="Event\AfterDetailDeletedEvent.cs" />
     <Compile Include="Event\OpenDetailViewEvent.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
+    <Compile Include="ViewModel\BaseDetailViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\FriendDetailViewModel.cs" />
     <Compile Include="ViewModel\IDetailViewModel.cs" />

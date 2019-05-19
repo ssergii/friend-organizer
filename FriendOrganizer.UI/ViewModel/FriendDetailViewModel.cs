@@ -1,7 +1,6 @@
 ﻿using FriendOrganizer.Model;
 using FriendOrganizer.UI.Data.Lookups;
 using FriendOrganizer.UI.Data.Repositories;
-using FriendOrganizer.UI.Event;
 using FriendOrganizer.UI.View.Services;
 using FriendOrganizer.UI.Wrapper;
 using Prism.Commands;
@@ -15,11 +14,10 @@ using System.Windows.Input;
 
 namespace FriendOrganizer.UI.ViewModel
 {
-    public class FriendDetailViewModel : BaseViewModel, IFriendDetailViewModel
+    public class FriendDetailViewModel : BaseDetailViewModel, IFriendDetailViewModel
     {
         #region fields and properties
         private IFriendRepository _friendRepository;
-        private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private IProgLanguageLookupDataService _progLanDataService;
 
@@ -31,21 +29,6 @@ namespace FriendOrganizer.UI.ViewModel
             {
                 _friend = value;
                 OnPropertyChanged();
-            }
-        }
-
-        private bool _hasChanges;
-        public bool HasChanges
-        {
-            get { return _hasChanges; }
-            set
-            {
-                if (_hasChanges == value)
-                    return;
-
-                _hasChanges = value;
-                OnPropertyChanged();
-                (SaveCommand as DelegateCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -71,9 +54,10 @@ namespace FriendOrganizer.UI.ViewModel
             IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService,
             IProgLanguageLookupDataService progLanDataService)
+            : base(eventAggregator)
         {
             _friendRepository = repository;
-            _eventAggregator = eventAggregator;
+            
             _messageDialogService = messageDialogService;
             _progLanDataService = progLanDataService;
 
@@ -83,7 +67,7 @@ namespace FriendOrganizer.UI.ViewModel
             InitCommends();
         }
 
-        public async Task LoadByIdAsync(int? id)
+        public override async Task LoadByIdAsync(int? id)
         {
             var model = id.HasValue ?
                 await _friendRepository.GetByIdAsync(id.Value) : CreateFriend();
@@ -95,41 +79,32 @@ namespace FriendOrganizer.UI.ViewModel
         }
 
         #region commands
-        public ICommand SaveCommand { get; private set; }
-        public ICommand DeleteCommand { get; private set; }
         public ICommand AddPhoneCommand { get; private set; }
         public ICommand RemovePhoneCommand { get; private set; }
 
         private void InitCommends()
         {
-            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExcute);
-            DeleteCommand = new DelegateCommand(OnDeleteCommandExecute);
+            
             AddPhoneCommand = new DelegateCommand(OnAddPhoneExecute);
             RemovePhoneCommand = new DelegateCommand(OnRemovePhoneExecute, OnRemovePhoneCanExecute);
         }
 
-        private bool OnSaveCanExcute()
-        {
-            return Friend != null && !Friend.HasErrors && HasChanges
-                && PhoneNumbers.All(x => !x.HasErrors);
-        }
-
-        private async void OnSaveExecute()
+        protected override async void OnSaveExecute()
         {
             await _friendRepository.SaveAsync();
 
             HasChanges = _friendRepository.HasChanges();
 
-            _eventAggregator.GetEvent<AfterDetailSavedEvent>().Publish(
-                new AfterDetailSavedEventArgs
-                {
-                    Id = Friend.Id,
-                    DisplayMember = $"{Friend.FirstName} {Friend.LastName}",
-                    VMName = nameof(FriendDetailViewModel)
-                });
+            RiseDetailSaveCommand(Friend.Id, $"{Friend.FirstName} {Friend.LastName}");
         }
 
-        private async void OnDeleteCommandExecute()
+        protected override bool OnSaveCanExcute()
+        {
+            return Friend != null && !Friend.HasErrors && HasChanges
+                && PhoneNumbers.All(x => !x.HasErrors);
+        }
+
+        protected override async void OnDeleteCommandExecute()
         {
             var result = _messageDialogService.ShowOkCancelDialog(
                 $"Do you really want to delete {Friend.FirstName} {Friend.LastName}",
@@ -141,12 +116,7 @@ namespace FriendOrganizer.UI.ViewModel
             _friendRepository.Remove(Friend.Model);
             await _friendRepository.SaveAsync();
 
-            _eventAggregator.GetEvent<AfterDetailDeletedEvent>().Publish(
-                new AfterDetailDeletedEventArgs
-                {
-                    Id = Friend.Id,
-                    VMName = nameof(FriendDetailViewModel)
-                });
+            RiseDetaildeleteCommand(Friend.Id);
         }
 
         private void OnAddPhoneExecute()
