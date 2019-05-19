@@ -90,6 +90,8 @@
     <Compile Include="Data\Lookups\IFriendLookupDataService.cs" />
     <Compile Include="Data\Lookups\IProgLanguageLookupDataService.cs" />
     <Compile Include="Data\Lookups\LookupDataService.cs" />
+    <Compile Include="Data\Repositories\IFriendRepository.cs" />
+    <Compile Include="Data\Repositories\Repository.cs" />
     <Compile Include="Event\AfterDetailSavedEvent.cs" />
     <Compile Include="Event\AfterDetailDeletedEvent.cs" />
     <Compile Include="Event\OpenDetailViewEvent.cs" />
@@ -123,7 +125,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\Repositories\FriendRepository.cs" />
-    <Compile Include="Data\Repositories\IRepository.cs" />
+    <Compile Include="Data\Repositories\IGenericRepository.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

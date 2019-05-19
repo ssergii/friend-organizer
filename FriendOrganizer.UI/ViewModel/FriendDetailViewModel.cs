@@ -1,25 +1,24 @@
 ﻿using FriendOrganizer.Model;
+using FriendOrganizer.UI.Data.Lookups;
 using FriendOrganizer.UI.Data.Repositories;
 using FriendOrganizer.UI.Event;
+using FriendOrganizer.UI.View.Services;
 using FriendOrganizer.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Linq;
-using FriendOrganizer.UI.View.Services;
-using FriendOrganizer.UI.Data.Lookups;
-using System.Collections.ObjectModel;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace FriendOrganizer.UI.ViewModel
 {
     public class FriendDetailViewModel : BaseViewModel, IFriendDetailViewModel
     {
         #region fields and properties
-        private IRepository<Friend> _friendRepository;
+        private IFriendRepository _friendRepository;
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private IProgLanguageLookupDataService _progLanDataService;
@@ -68,7 +67,7 @@ namespace FriendOrganizer.UI.ViewModel
         #endregion
 
         public FriendDetailViewModel(
-            IRepository<Friend> repository,
+            IFriendRepository repository,
             IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService,
             IProgLanguageLookupDataService progLanDataService)
