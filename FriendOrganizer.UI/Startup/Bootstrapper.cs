@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using FriendOrganizer.DataAccess;
-using FriendOrganizer.Model;
 using FriendOrganizer.UI.Data.Lookups;
 using FriendOrganizer.UI.Data.Repositories;
 using FriendOrganizer.UI.View.Services;
@@ -25,6 +24,7 @@ namespace FriendOrganizer.UI.Startup
             builder.RegisterType<FriendDetailViewModel>().As<IFriendDetailViewModel>();
 
             builder.RegisterType<FriendRepository>().As<IFriendRepository>();
+            builder.RegisterType<MeetingRepository>().As<IMeetingRepository>();
             builder.RegisterType<LookupDataService>().AsImplementedInterfaces();
 
             return builder.Build();
