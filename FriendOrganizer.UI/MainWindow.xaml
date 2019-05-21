@@ -15,6 +15,10 @@
         <DataTemplate DataType="{x:Type viewModel:FriendDetailViewModel}">
             <view:FriendDetailView />
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:MeetingDetailViewModel}">
+            <view:MeetingViewModel />
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
