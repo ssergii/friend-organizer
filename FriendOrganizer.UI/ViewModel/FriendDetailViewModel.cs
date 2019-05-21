@@ -22,6 +22,30 @@ namespace FriendOrganizer.UI.ViewModel
         private IProgLanguageLookupDataService _progLanDataService;
 
         private FriendWrapper _friend;
+        private PhoneNumberWrapper _selectedPhoneNumber;
+        #endregion
+
+        #region constructors
+        public FriendDetailViewModel(
+            IFriendRepository repository,
+            IEventAggregator eventAggregator,
+            IMessageDialogService messageDialogService,
+            IProgLanguageLookupDataService progLanDataService)
+            : base(eventAggregator)
+        {
+            _friendRepository = repository;
+            _messageDialogService = messageDialogService;
+            _progLanDataService = progLanDataService;
+
+            ProgLanguages = new ObservableCollection<LookupItem>();
+            PhoneNumbers = new ObservableCollection<PhoneNumberWrapper>();
+
+            AddPhoneCommand = new DelegateCommand(OnAddPhoneExecute);
+            RemovePhoneCommand = new DelegateCommand(OnRemovePhoneExecute, OnRemovePhoneCanExecute);
+        }
+        #endregion
+
+        #region properties
         public FriendWrapper Friend
         {
             get { return _friend; }
@@ -32,9 +56,6 @@ namespace FriendOrganizer.UI.ViewModel
             }
         }
 
-        public ObservableCollection<LookupItem> ProgLanguages { get; }
-
-        private PhoneNumberWrapper _selectedPhoneNumber;
         public PhoneNumberWrapper SelectedPhoneNumber
         {
             get { return _selectedPhoneNumber; }
@@ -46,27 +67,11 @@ namespace FriendOrganizer.UI.ViewModel
             }
         }
 
+        public ObservableCollection<LookupItem> ProgLanguages { get; }
         public ObservableCollection<PhoneNumberWrapper> PhoneNumbers { get; }
         #endregion
 
-        public FriendDetailViewModel(
-            IFriendRepository repository,
-            IEventAggregator eventAggregator,
-            IMessageDialogService messageDialogService,
-            IProgLanguageLookupDataService progLanDataService)
-            : base(eventAggregator)
-        {
-            _friendRepository = repository;
-            
-            _messageDialogService = messageDialogService;
-            _progLanDataService = progLanDataService;
-
-            ProgLanguages = new ObservableCollection<LookupItem>();
-            PhoneNumbers = new ObservableCollection<PhoneNumberWrapper>();
-
-            InitCommends();
-        }
-
+        #region IDetailViewModel implementation
         public override async Task LoadByIdAsync(int? id)
         {
             var model = id.HasValue ?
@@ -77,24 +82,16 @@ namespace FriendOrganizer.UI.ViewModel
 
             await LoadProgLanguagesAsync();
         }
+        #endregion
 
         #region commands
-        public ICommand AddPhoneCommand { get; private set; }
-        public ICommand RemovePhoneCommand { get; private set; }
-
-        private void InitCommends()
-        {
-            
-            AddPhoneCommand = new DelegateCommand(OnAddPhoneExecute);
-            RemovePhoneCommand = new DelegateCommand(OnRemovePhoneExecute, OnRemovePhoneCanExecute);
-        }
+        public ICommand AddPhoneCommand { get; }
+        public ICommand RemovePhoneCommand { get; }
 
         protected override async void OnSaveExecute()
         {
             await _friendRepository.SaveAsync();
-
             HasChanges = _friendRepository.HasChanges();
-
             RiseDetailSaveCommand(Friend.Id, $"{Friend.FirstName} {Friend.LastName}");
         }
 
@@ -116,7 +113,7 @@ namespace FriendOrganizer.UI.ViewModel
             _friendRepository.Remove(Friend.Model);
             await _friendRepository.SaveAsync();
 
-            RiseDetaildeleteCommand(Friend.Id);
+            RiseDetailDeleteCommand(Friend.Id);
         }
 
         private void OnAddPhoneExecute()

@@ -9,11 +9,12 @@ namespace FriendOrganizer.UI.ViewModel
     public abstract class BaseDetailViewModel : BaseViewModel, IDetailViewModel
     {
         #region fields
-        private bool _hasChanges;
-
         protected IEventAggregator _eventAggregator;
+
+        private bool _hasChanges;
         #endregion
 
+        #region constructors
         public BaseDetailViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
@@ -21,14 +22,6 @@ namespace FriendOrganizer.UI.ViewModel
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExcute);
             DeleteCommand = new DelegateCommand(OnDeleteCommandExecute);
         }
-
-        #region commands
-        public ICommand SaveCommand { get; }
-        public ICommand DeleteCommand { get; }
-
-        protected abstract void OnSaveExecute();
-        protected abstract bool OnSaveCanExcute();
-        protected abstract void OnDeleteCommandExecute();
         #endregion
 
         #region IDetailViewModel implementation
@@ -49,6 +42,14 @@ namespace FriendOrganizer.UI.ViewModel
         public abstract Task LoadByIdAsync(int? id);
         #endregion
 
+        #region commands
+        public ICommand SaveCommand { get; }
+        public ICommand DeleteCommand { get; }
+
+        protected abstract void OnSaveExecute();
+        protected abstract bool OnSaveCanExcute();
+        protected abstract void OnDeleteCommandExecute();
+
         protected void RiseDetailSaveCommand(int modelId, string displayMemeber)
         {
             _eventAggregator.GetEvent<AfterDetailSavedEvent>().Publish(
@@ -60,7 +61,7 @@ namespace FriendOrganizer.UI.ViewModel
                 });
         }
 
-        protected void RiseDetaildeleteCommand(int modelId)
+        protected void RiseDetailDeleteCommand(int modelId)
         {
             _eventAggregator.GetEvent<AfterDetailDeletedEvent>().Publish(
                 new AfterDetailDeletedEventArgs
@@ -69,5 +70,6 @@ namespace FriendOrganizer.UI.ViewModel
                     VMName = GetType().Name
                 });
         }
+        #endregion
     }
 }
