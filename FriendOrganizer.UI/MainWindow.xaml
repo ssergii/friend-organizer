@@ -17,7 +17,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type viewModel:MeetingDetailViewModel}">
-            <view:MeetingViewModel />
+            <view:MeetingView />
         </DataTemplate>
     </Window.Resources>
 

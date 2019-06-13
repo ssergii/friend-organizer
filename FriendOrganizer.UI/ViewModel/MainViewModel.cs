@@ -36,15 +36,17 @@ namespace FriendOrganizer.UI.ViewModel
             IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService)
         {
-            _eventAggregator = eventAggregator;
-            _friendDetailVMCreator = friendDetailVMCreator;
-            _meetingDetailVMCreator = meetingDetailVMCreator;
             _messageDialogService = messageDialogService;
 
+            _friendDetailVMCreator = friendDetailVMCreator;
+            _meetingDetailVMCreator = meetingDetailVMCreator;
+
+            _eventAggregator = eventAggregator;
             _eventAggregator
                 .GetEvent<OpenDetailViewEvent>()
                 .Subscribe(OnOpenDetailViewEvent);
-            _eventAggregator.GetEvent<AfterDetailDeletedEvent>()
+            _eventAggregator
+                .GetEvent<AfterDetailDeletedEvent>()
                 .Subscribe(AfterDetailDeleted);
 
             NavigationVM = navigationVM;

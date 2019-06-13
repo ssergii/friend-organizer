@@ -2,9 +2,9 @@
 
 namespace FriendOrganizer.UI.View
 {
-    public partial class MeetingViewModel : UserControl
+    public partial class MeetingView : UserControl
     {
-        public MeetingViewModel()
+        public MeetingView()
         {
             InitializeComponent();
         }

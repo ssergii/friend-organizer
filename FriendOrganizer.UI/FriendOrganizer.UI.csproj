@@ -133,8 +133,8 @@
     <Compile Include="View\FriendDetailView.xaml.cs">
       <DependentUpon>FriendDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MeetingViewModel.xaml.cs">
-      <DependentUpon>MeetingViewModel.xaml</DependentUpon>
+    <Compile Include="View\MeetingView.xaml.cs">
+      <DependentUpon>MeetingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
@@ -164,7 +164,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MeetingViewModel.xaml">
+    <Page Include="View\MeetingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
